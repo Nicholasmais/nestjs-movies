@@ -1,7 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User, UserType } from './dto/user.interface';
+import { CreateUserDto } from './dto/create-user.dto';
+import { PatchUserDto } from './dto/patch-user.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('users')
 export class UsersController {
   private readonly usersService: UsersService;
@@ -21,12 +25,12 @@ export class UsersController {
   }
 
   @Post()
-  createUser(@Body() user: User): void{
+  createUser(@Body(ValidationPipe) user: CreateUserDto): void{
     return this.usersService.createUser(user);
   }
 
   @Patch(":id")
-  patchUserByID(@Param("id") id: string, @Body() patchedUser: User): void{
+  patchUserByID(@Param("id") id: string, @Body(ValidationPipe) patchedUser: PatchUserDto): void{
     return this.usersService.patchUserByID(id, patchedUser);
   }
 

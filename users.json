@@ -1,0 +1,29 @@
+[
+  {
+    "id": "e0d0b481-8dcf-4920-83d5-5828f76ae1d2",
+    "email": "john.doe@example.com",
+    "nome": "John",
+    "senha": "$2b$10$Lw2URLngTSMYGwwV2bDscuXOdB24mcR4yKD3oswz.9/Mj.5hUZmvi",
+    "sobrenome": "Doe",
+    "status": "ativo",
+    "type": "admin"
+  },
+  {
+    "id": "81f6f9fe-c88c-4008-97cd-e808908ed781",
+    "email": "john.doe@example.com",
+    "nome": "John",
+    "senha": "$2b$10$n54czMNmu.DwpPIitK9/qOYxISFP7l/oc4QwlMajf8K1KxEeURbQC",
+    "sobrenome": "Doe",
+    "status": "ativo",
+    "type": "admin"
+  },
+  {
+    "id": "ea6777f7-c048-46d2-923a-f2344a0fed42",
+    "email": "john.doe@example.com",
+    "nome": "John",
+    "senha": "$2b$10$kfI6tPjDWi1kSioHOyasFuZjUMS7rCzMcFAeZeutcsfdIZ3faO4eC",
+    "sobrenome": "Doe",
+    "status": "ativo",
+    "type": "admin"
+  }
+]

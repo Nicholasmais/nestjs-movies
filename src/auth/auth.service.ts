@@ -14,8 +14,8 @@ export class AuthService {
     private readonly configService: ConfigService,
   ){}
 
-  signIn(email: string, password: string): AuthResponseDto{
-    const user = this.userService.retrieveUserByEmail(email);
+  async signIn(email: string, password: string): Promise<AuthResponseDto>{
+    const user = await this.userService.retrieveUserByEmail(email);
 
     if (!bcrypt.compareSync(password, user.senha)){
       throw new UnauthorizedException("Senha inválida");

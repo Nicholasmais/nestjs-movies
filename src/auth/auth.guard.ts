@@ -18,6 +18,10 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+    
+    if (request.route.path === '/users' && request.method === 'POST') {
+      return true; 
+    }
 
     const token = this.extractTokenFromHeader(request);
 

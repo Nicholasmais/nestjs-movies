@@ -8,24 +8,20 @@ import { AuthGuard } from 'src/auth/auth.guard';
 @UseGuards(AuthGuard)
 @Controller('users')
 export class UsersController {
-  private readonly usersService: UsersService;
-
-  constructor(){
-    this.usersService = new UsersService();
-  }
+  constructor(private readonly usersService: UsersService) {} 
   
   @Get()
-  retrieveUsers(@Query("type") type?: UserType): User[] {
+  async retrieveUsers(@Query("type") type?: UserType): Promise<User[]> {
     return this.usersService.retrieveUsers(type);
   }
 
   @Get(":id")
-  retrieveUserByID(@Param("id") id: string): User{
+  async retrieveUserByID(@Param("id") id: string): Promise<User>{
     return this.usersService.retrieveUserByID(id);
   }
 
   @Post()
-  createUser(@Body(ValidationPipe) user: CreateUserDto): void{
+  async createUser(@Body(ValidationPipe) user: CreateUserDto): Promise<void>{
     return this.usersService.createUser(user);
   }
 

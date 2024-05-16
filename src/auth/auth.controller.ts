@@ -9,10 +9,10 @@ export class AuthController {
   
   @HttpCode(HttpStatus.OK)
   @Post("signin")
-  signIn(
+  async signIn(
     @Body('email') username: string,
     @Body('password') password: string
-  ): AuthResponseDto{
+  ): Promise<AuthResponseDto>{
     return this.authService.signIn(username, password);
   }
 }

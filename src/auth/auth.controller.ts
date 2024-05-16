@@ -1,6 +1,7 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
 import { AuthResponseDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -14,5 +15,11 @@ export class AuthController {
     @Body('password') password: string
   ): Promise<AuthResponseDto>{
     return this.authService.signIn(username, password);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post("logout")
+  async logOut(@Req() request: Request): Promise<void>{
+    return this.authService.logOut(request);
   }
 }

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
+import { MoviesModule } from './movies/movies.module';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { DatabaseModule } from './database/database.module';
     UsersModule,
     AuthModule,
     DatabaseModule,
+    MoviesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User, UserType } from './dto/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Request } from 'express';
 
 @UseGuards(AuthGuard)
 @Controller('users')
@@ -26,12 +27,19 @@ export class UsersController {
   }
 
   @Patch(":id")
-  patchUserByID(@Param("id") id: string, @Body(ValidationPipe) patchedUser: PatchUserDto): void{
-    return this.usersService.patchUserByID(id, patchedUser);
+  async patchUserByID(
+    @Param("id") id: string,
+    @Body(ValidationPipe) patchedUser: Partial<PatchUserDto>,
+    @Req() request: Request
+  ): Promise<void>{
+    return this.usersService.patchUserByID(id, patchedUser, request);
   }
 
   @Delete(":id")
-  deleteUserByID(@Param("id") id: string): void{
-    return this.usersService.deleteUserByID(id);
+  async deleteUserByID(
+    @Param("id") id: string,
+    @Req() req: Request
+  ): Promise<void>{
+    return this.usersService.deleteUserByID(id, req);
   }
 }

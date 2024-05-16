@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { User, UserType } from './dto/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/database/entities/user.entity';
 import { Repository } from 'typeorm';
+import { Request } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -73,17 +74,74 @@ export class UsersService {
 
     return user;
   }
+
+  private mapDtoToPartialEntity(userDto: PatchUserDto): Partial<UsersEntity> {
+    const user: Partial<UsersEntity> = {};
   
-  patchUserByID(id: string, user: PatchUserDto): void{
-    console.log({
-      id: id,
-      nome: user.nome,
-      sobrenome: user.sobrenome
+    if (userDto.nome !== undefined) {
+      user.nome = userDto.nome;
+    }
+  
+    if (userDto.sobrenome !== undefined) {
+      user.sobrenome = userDto.sobrenome;
+    }
+  
+    if (userDto.senha !== undefined) {
+      user.senha = bcrypt.hashSync(userDto.senha, 10);
+    }
+  
+    if (userDto.type !== undefined) {
+      user.type = userDto.type;
+    }
+  
+    if (userDto.status !== undefined) {
+      user.status = userDto.status;
+    }
+  
+    if (userDto.email !== undefined) {
+      user.email = userDto.email;
+    }
+  
+    return user;
+  }  
+  
+  async patchUserByID(id: string, user: PatchUserDto, req: Request): Promise<void>{
+    if (req["user"]["sub"] != id) {
+      throw new UnauthorizedException("One can only update self user");
+    }
+
+    const userToUpdate = await this.usersRepository.findOne({
+      where: {id: id}
     });
+    
+    if (!userToUpdate){
+      throw new NotFoundException("User not found");
+    }
+
+    if (!Object.keys(this.mapDtoToPartialEntity(user)).length){
+      throw new UnprocessableEntityException("Malformed body");
+    }    
+
+    await this.usersRepository.update(
+      id,
+      this.mapDtoToPartialEntity(user)
+    );
   }
 
-  deleteUserByID(id: string): void {
-    console.log({
+  async deleteUserByID(id: string, req: Request): Promise<void> {
+    if (req["user"]["sub"] != id) {
+      throw new UnauthorizedException("One can only delete self user");
+    }
+
+    const userToUpdate = await this.usersRepository.findOne({
+      where: {id: id}
+    });
+    
+    if (!userToUpdate){
+      throw new NotFoundException("User not found");
+    }
+
+    this.usersRepository.delete({
       id: id
     });
   }

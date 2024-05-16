@@ -1,5 +1,5 @@
 import { UserType } from "./user.interface";
-import { IsEmail, IsEnum, IsString, IsArray, IsNotEmpty } from "class-validator";
+import { IsEmail, IsEnum, IsString, IsNotEmpty } from "class-validator";
 
 export class CreateUserDto{  
   @IsString()
@@ -9,6 +9,7 @@ export class CreateUserDto{
   @IsString()
   sobrenome: string;
 
+  @IsString()
   senha: string;
 
   @IsEnum(UserType, {

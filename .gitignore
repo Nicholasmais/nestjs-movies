@@ -4,6 +4,7 @@
 /build
 /.vscode
 /db
+/redis
 
 # Logs
 logs

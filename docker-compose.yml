@@ -5,9 +5,9 @@ services:
     container_name: postgres
     restart: always
     environment:
-      - "POSTGRES_PASSWORD=648297315"
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_DB=movies"
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:  
       - "5433:5432"
     volumes:
@@ -19,3 +19,23 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    env_file:
+      - .env
+    volumes:
+      - ./redis/data:/data
+
+  nestjs:
+    build:
+      context: .
+      dockerfile: .dockerfile
+    container_name: nestjs
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./src/:/app/src/

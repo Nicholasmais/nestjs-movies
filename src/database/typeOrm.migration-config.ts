@@ -10,11 +10,11 @@ const configService = new ConfigService();
 
 const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
-  host: configService.get<string>("DB_HOST"),
-  port: +configService.get<string>("DB_PORT"),
-  username: configService.get<string>("DB_USERNAME"),
-  password: configService.get<string>("DB_PASSWORD"),
-  database: configService.get<string>("DB_DATABASE"),        
+  host: configService.get<string>("POSTGRES_HOST"),
+  port: +configService.get<string>("POSTGRES_PORT"),
+  username: configService.get<string>("POSTGRES_DB"),
+  password: configService.get<string>("POSTGRES_PASSWORD"),
+  database: configService.get<string>("POSTGRES_DB"),        
   migrations: [__dirname + "/migrations/*.ts"],
   entities: [UsersEntity, MoviesEntity],
   logging: true,

@@ -17,6 +17,7 @@ services:
     image: redis
     container_name: redis
     restart: always
+    # command: /bin/sh -c "redis-server --requirepass redis"
     ports:
       - "6379:6379"
     env_file:
@@ -24,18 +25,18 @@ services:
     volumes:
       - ./redis/data:/data
 
-  nestjs:
-    build:
-      context: .
-      dockerfile: .dockerfile
-    container_name: nestjs
-    restart: always
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./src/:/app/src/
+  # nestjs:
+  #   build:
+  #     context: .
+  #     dockerfile: .dockerfile
+  #   container_name: nestjs
+  #   restart: always
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   volumes:
+  #     - ./src/:/app/src/

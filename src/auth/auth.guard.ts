@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
-import Redis from 'ioredis'; 
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly redisClient:  Redis,
+    private readonly redisClient:  RedisService,
   ){
     this.jwtSecret = this.configService.get<string>("JWT_SECRET");
   }
@@ -52,7 +52,6 @@ export class AuthGuard implements CanActivate {
   }
 
   async isTokenBlackListed(token: string): Promise<boolean> {
-    const result = await this.redisClient.exists(token);
-    return !!result;
+    return this.redisClient.exists(token);
   }
 }

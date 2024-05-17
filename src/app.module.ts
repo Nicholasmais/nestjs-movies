@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { MoviesModule } from './movies/movies.module';
+import { RedisModule } from './redis/redis.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import { MoviesModule } from './movies/movies.module';
     AuthModule,
     DatabaseModule,
     MoviesModule,
+    RedisModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const token = this.extractTokenFromHeader(request);
-    
+
     if (!token || await this.isTokenBlackListed(token)){
       throw new UnauthorizedException;
     }

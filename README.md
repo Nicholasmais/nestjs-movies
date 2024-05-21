@@ -2,6 +2,7 @@
 
 A API é uma plataforma para gerenciamento de usuários e filmes. Ela oferece endpoints para autenticação, criação de usuários, gerenciamento de sessões e manipulação de informações sobre filmes.
 URL base: https://nestjs-movies-production.up.railway.app/
+Teste online: https://elements.getpostman.com/redirect?entityId=22403920-e5a53340-8bb4-4bf6-b2b6-53852dc5f344&entityType=collection
 ## Autenticação
 
 Para autenticação, a API utiliza tokens de acesso JWT (JSON Web Token). O token deve ser incluído no cabeçalho de autorização de todas as requisições autenticadas, no formato `Bearer <token>`.

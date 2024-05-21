@@ -17,7 +17,7 @@ export class MoviesController {
   @Get()
   @ApiOperation({ summary: 'Recuperar todos os filmes' })
   @ApiHeader({
-    name: 'Authorization2',
+    name: 'Authorization',
     description: 'Bearer token', // Descrição personalizada para o token Bearer
   })
   @ApiResponse({ status: 200, description: 'Filmes recuperados com sucesso.' })
